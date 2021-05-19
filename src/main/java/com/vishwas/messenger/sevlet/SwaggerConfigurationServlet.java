@@ -12,10 +12,10 @@ public class SwaggerConfigurationServlet extends HttpServlet{
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		BeanConfig beanConfig = new BeanConfig();
-        beanConfig.setVersion("1.0");
+		beanConfig.setTitle("Messenger Api documentation");
+        beanConfig.setVersion("1.0.0");
         beanConfig.setSchemes(new String[]{"http"});
         beanConfig.setHost("localhost:8080");
-        beanConfig.setTitle("Messenger Api documentation");
         beanConfig.setBasePath("/messenger/webapi");
         beanConfig.setResourcePackage("com.vishwas.messenger.resources");
         beanConfig.setPrettyPrint(true);
