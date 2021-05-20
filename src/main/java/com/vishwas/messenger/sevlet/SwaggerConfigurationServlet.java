@@ -12,7 +12,7 @@ public class SwaggerConfigurationServlet extends HttpServlet{
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		BeanConfig beanConfig = new BeanConfig();
-		beanConfig.setTitle("Messenger Api documentation");
+		beanConfig.setTitle("Messenger API");
         beanConfig.setVersion("1.0.0");
         beanConfig.setSchemes(new String[]{"http"});
         beanConfig.setHost("localhost:8080");
