@@ -2,6 +2,7 @@ package com.vishwas.messenger.resources;
 
 import java.util.List;
 
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -10,9 +11,11 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+//import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.vishwas.messenger.model.Message;
+import com.vishwas.messenger.resources.beans.MessageFilterBean;
 import com.vishwas.messenger.service.MessageService;
 
 import io.swagger.annotations.Api;
@@ -24,6 +27,8 @@ import io.swagger.annotations.ApiResponses;
 
 @Path("/messages")
 @Api(value="/message")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 
 public class MessageResource {
 	
@@ -37,8 +42,15 @@ public class MessageResource {
 			@ApiResponse(code = 400, message =  "Invalid url"),
 			@ApiResponse(code = 404, message = "Resource not found")
 	})
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Message> getMessages() {
+	//@Produces(MediaType.APPLICATION_JSON)
+	public List<Message> getMessages(@BeanParam MessageFilterBean filterBean) {
+		if(filterBean.getYear() > 0) {
+			return messageService.getAllMessagesForYear(filterBean.getYear());
+		}
+		
+		if(filterBean.getSize() >=0 && filterBean.getStart() > 0) {
+			return messageService.getAllMessagesPaginated(filterBean.getStart(), filterBean.getSize());
+		}
 		return messageService.getAllMessages();
 	}
 	
@@ -49,8 +61,8 @@ public class MessageResource {
 			@ApiResponse(code = 400, message =  "Invalid url"),
 			@ApiResponse(code = 405, message = "Invalid Input")
 	})
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
+//	@Produces(MediaType.APPLICATION_JSON)
+//	@Consumes(MediaType.APPLICATION_JSON)
 	public Message getMesage(@ApiParam(value = "Message object that needs to be added to the message", required = true) Message message) {
 		return messageService.addMessage(message);
 	}
@@ -64,8 +76,8 @@ public class MessageResource {
 			@ApiResponse(code = 404, message = "Resource not found")
 	})
 	
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
+//	@Produces(MediaType.APPLICATION_JSON)
+//	@Consumes(MediaType.APPLICATION_JSON)
 	public Message updateMessage(@PathParam("messageId") long id, @ApiParam(value = "Message object that needs to be added to the message", required = true)Message message) {
 		message.setId(id);
 		return messageService.updateMessage(message);
@@ -78,7 +90,7 @@ public class MessageResource {
 			@ApiResponse(code = 400, message = "Invalid ID supplied"),
 	        @ApiResponse(code = 404, message = "Message not found")
 	})
-	@Produces(MediaType.APPLICATION_JSON)
+	//@Produces(MediaType.APPLICATION_JSON)
 	public void deleteMessage(@PathParam("messageId") long id) {
 		messageService.removeMessage(id);
 	}
@@ -92,8 +104,13 @@ public class MessageResource {
 	@ApiResponses(value = { 
 			@ApiResponse(code = 400, message = "Invalid message id value")
 	})
-	@Produces(MediaType.APPLICATION_JSON)
+	//@Produces(MediaType.APPLICATION_JSON)
 	public Message getMessage(@PathParam("messageId") long id) {
 		return messageService.getMessage(id);
+	}
+	
+	@Path("/{messageId}/comments")
+	public CommentResource getCommentResource() {
+		return new CommentResource();
 	}
 }
