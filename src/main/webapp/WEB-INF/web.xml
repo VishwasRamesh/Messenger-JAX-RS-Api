@@ -29,7 +29,7 @@
    
     
     
-     <servlet>
+    <!--  <servlet>
         <servlet-name>Jersey2Config</servlet-name>
         <servlet-class>io.swagger.jersey.config.JerseyJaxrsConfig</servlet-class>
         <init-param>
@@ -41,7 +41,7 @@
             <param-value>http://localhost:8080/messenger/webapi</param-value>
         </init-param>
         <load-on-startup>2</load-on-startup>
-    </servlet>
+    </servlet>--> 
     
     
 
