@@ -1,0 +1,252 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "This is swagger documentation for My swagger",
+    "version" : "1.0.0",
+    "title" : "My swagger"
+  },
+  "host" : "https://localhost:8080",
+  "basePath" : "/messenger/webapi",
+  "tags" : [ {
+    "name" : "hello"
+  }, {
+    "name" : "message"
+  } ],
+  "schemes" : [ "http", "https" ],
+  "paths" : {
+    "/hello" : {
+      "get" : {
+        "tags" : [ "hello" ],
+        "summary" : "Prints Hello world, for test purpose!",
+        "description" : "Printing the hello world for testing the swagger document generation",
+        "operationId" : "hello",
+        "produces" : [ "text/plain" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "400" : {
+            "description" : "Invalid url"
+          },
+          "404" : {
+            "description" : "Resource not found"
+          }
+        }
+      }
+    },
+    "/messages" : {
+      "get" : {
+        "tags" : [ "message" ],
+        "summary" : "Gets all the messages",
+        "description" : "Gives the details of all the messages",
+        "operationId" : "getMessages",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "year",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "start",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid url"
+          },
+          "404" : {
+            "description" : "Resource not found"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "message" ],
+        "summary" : "Posts a new message",
+        "description" : "Creates a new message and adds it to database",
+        "operationId" : "getMesage",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Message object that needs to be added to the message",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Message"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Message"
+            }
+          },
+          "400" : {
+            "description" : "Invalid url"
+          },
+          "405" : {
+            "description" : "Invalid Input"
+          }
+        }
+      }
+    },
+    "/messages/{messageId}" : {
+      "get" : {
+        "tags" : [ "message" ],
+        "summary" : "Finds Message by id",
+        "description" : "Fetches a message by id. The id must be provided in long format",
+        "operationId" : "getMessage",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "messageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Message"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid message id value"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "message" ],
+        "summary" : "Modifies an already existing message",
+        "description" : "Modifies an existing message. Message is must be specified as parameter",
+        "operationId" : "updateMessage",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "messageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Message object that needs to be added to the message",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Message"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Message"
+            }
+          },
+          "400" : {
+            "description" : "Invalid url"
+          },
+          "404" : {
+            "description" : "Resource not found"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "message" ],
+        "summary" : "Deletes a message",
+        "description" : "",
+        "operationId" : "deleteMessage",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "messageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid ID supplied"
+          },
+          "404" : {
+            "description" : "Message not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Comment" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "created" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "author" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Message" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "getcreated" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "author" : {
+          "type" : "string"
+        },
+        "comments" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Comment"
+          }
+        }
+      }
+    }
+  }
+}

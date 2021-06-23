@@ -12,6 +12,7 @@
     <build>
         <finalName>messenger</finalName>
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -22,6 +23,52 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>com.github.kongchen</groupId>
+                <artifactId>swagger-maven-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <apiSources>
+                        <apiSource>
+                            <springmvc>false</springmvc>
+                            <locations>com.vishwas.messenger.resources</locations>
+                            <schemes>http,https</schemes>
+                            <host>https://localhost:8080</host>
+                            <basePath>/messenger/webapi</basePath>
+                            <info>
+                                <title>My swagger</title>
+                                <version>1.0.0</version>
+                                <description>This is swagger documentation for My swagger</description>
+                                <termsOfService>
+                                </termsOfService>
+                            </info>
+                            <!-- Support classpath or file absolute path here. 1) classpath e.g:
+                                "classpath:/markdown.hbs", "classpath:/templates/hello.html" 2) file e.g:
+                                "${basedir}/src/main/resources/markdown.hbs", "${basedir}/src/main/resources/template/hello.html" -->
+                            <!-- 							<templatePath>${basedir}src/main/resources/templates/strapdown.html.hbs</templatePath> -->
+                            <!-- 							<outputPath>${basedir}/generated/document.html</outputPath> -->
+                            <swaggerDirectory>${basedir}/generated/swagger</swaggerDirectory>
+                            <templatePath>${basedir}/templates/strapdown.html.hbs</templatePath>
+                            <outputPath>${basedir}/generated/document.html</outputPath>
+                        </apiSource>
+                    </apiSources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+<!--            ...-->
+<!--            <dependency>-->
+<!--                <groupId>io.swagger.core.v3</groupId>-->
+<!--                <artifactId>swagger-core</artifactId>-->
+<!--                <version>2.0.0</version>-->
+<!--            </dependency>-->
         </plugins>
     </build>
 
@@ -64,8 +111,29 @@
     		<artifactId>swagger-jaxrs</artifactId>
     		<version>1.6.2</version>
 		</dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+        </dependency>
 
-        
+
+
+        <!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.github.kongchen/swagger-maven-plugin &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.github.kongchen</groupId>-->
+<!--            <artifactId>swagger-maven-plugin</artifactId>-->
+<!--            <version>3.1.8</version>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.github.jknack/handlebars &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.github.jknack</groupId>-->
+<!--            <artifactId>handlebars</artifactId>-->
+<!--            <version>4.2.0</version>-->
+<!--        </dependency>-->
+
+
     </dependencies>
     <properties>
         <jersey.version>2.25.1</jersey.version>
